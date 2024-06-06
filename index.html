@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div id="container">
+    <div id="container1">
+     <p id="time">00:00:00</p>
+    </div>
+    <div id="container2">
+      <button onclick="start_increament()">Start</button>
+      <button onclick="pause_increament()">Pause</button>
+      <button onclick="stop_increament()">Stop</button>
+    </div>
+  </div>
+
+  <script>
+    let sec = 0; // Seconds
+    let mins = 0; // Minutes
+    let hrs = 0; // Hours
+    let interval;
+
+    // Function to start the timer
+    function start_increament() {
+      if (interval) return; // Prevent multiple intervals
+      interval = setInterval(seconds, 1000); // Call seconds function every second
+    }
+
+    // Function to pause the timer
+    function pause_increament() {
+      clearInterval(interval); // Clear the interval
+      interval = null; // Reset the interval variable
+    }
+
+    // Function to stop the timer and reset values
+    function stop_increament() {
+      clearInterval(interval); // Clear the interval
+      interval = null; // Reset the interval variable
+      sec = 0; // Reset seconds
+      mins = 0; // Reset minutes
+      hrs = 0; // Reset hours
+      updateDisplay(); // Update the display to 00:00:00
+    }
+
+    // Function to increment the time
+    function seconds() {
+      sec++; // Increment seconds
+      if (sec === 60) { // If seconds reach 60
+        sec = 0; // Reset seconds
+        mins++; // Increment minutes
+        if (mins === 60) { // If minutes reach 60
+          mins = 0; // Reset minutes
+          hrs++; // Increment hours
+          if (hrs === 24) { // If hours reach 24
+            hrs = 0; // Reset hours
+          }
+        }
+      }
+      updateDisplay(); // Update the display every second
+    }
+
+    // Function to update the time display
+    function updateDisplay() {
+      document.getElementById('time').innerHTML = 
+        `${formatNumber(hrs)}:${formatNumber(mins)}:${formatNumber(sec)}`;
+    }
+
+    // Function to format numbers to always have two digits
+    function formatNumber(number) {
+      return number < 10 ? '0' + number : number;
+    }
+  </script>
+</body>
+</html>
